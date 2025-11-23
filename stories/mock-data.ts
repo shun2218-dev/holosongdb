@@ -1,0 +1,83 @@
+// Mock data for Storybook stories
+export const mockSongs = [
+  {
+    id: "1",
+    title: "Reflect",
+    artist: "Gawr Gura",
+    album: "Original Song",
+    duration: "3:45",
+    playCount: 1250000,
+    likeCount: 45000,
+    commentCount: 2300,
+    releaseDate: "2021-06-21",
+    thumbnailUrl: "/anime-girl-blue-hair.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=WGgEFoI9MhE",
+    tags: ["Original", "English", "Emotional"],
+  },
+  {
+    id: "2",
+    title: "King",
+    artist: "Mori Calliope",
+    album: "Cover Song",
+    duration: "4:12",
+    playCount: 890000,
+    likeCount: 32000,
+    commentCount: 1800,
+    releaseDate: "2020-10-15",
+    thumbnailUrl: "/anime-girl-pink-hair-reaper.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=qNIhngowViI",
+    tags: ["Cover", "Japanese", "Rock"],
+  },
+  {
+    id: "3",
+    title: "Unravel",
+    artist: "Ninomae Ina'nis",
+    album: "Cover Song",
+    duration: "4:05",
+    playCount: 650000,
+    likeCount: 28000,
+    commentCount: 1200,
+    releaseDate: "2020-11-08",
+    thumbnailUrl: "/anime-girl-purple-hair-tentacles.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=n-8FuJxnPO4",
+    tags: ["Cover", "Japanese", "Emotional"],
+  },
+]
+
+export const mockTalents = [
+  {
+    id: "1",
+    name: "Gawr Gura",
+    branch: "Hololive English",
+    generation: "Myth",
+    debutDate: "2020-09-13",
+    subscriberCount: 4200000,
+    avatarUrl: "/shark-girl-blue-hair.jpg",
+  },
+  {
+    id: "2",
+    name: "Mori Calliope",
+    branch: "Hololive English",
+    generation: "Myth",
+    debutDate: "2020-09-12",
+    subscriberCount: 2100000,
+    avatarUrl: "/reaper-girl-pink-hair.jpg",
+  },
+  {
+    id: "3",
+    name: "Ninomae Ina'nis",
+    branch: "Hololive English",
+    generation: "Myth",
+    debutDate: "2020-09-13",
+    subscriberCount: 1800000,
+    avatarUrl: "/tako-girl-purple-hair.jpg",
+  },
+]
+
+export const mockAdmin = {
+  id: "admin-1",
+  username: "admin",
+  email: "admin@hololive.com",
+  role: "SUPER_ADMIN" as const,
+  active: true,
+}

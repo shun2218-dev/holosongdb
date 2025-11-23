@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Talent {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  nameJp    String?  // 日本語名
+  nameEn    String?  // 英語名
+  branch    String   // JP, EN, ID, etc.
+  generation String? // 1期生、2期生など
+  debut     DateTime?
+  active    Boolean  @default(true)
+  channelId       String?  // YouTubeチャンネルID
+  subscriberCount BigInt?  @default(0) // 登録者数
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  songs     Song[]
+  oshiPreferences UserOshiPreference[]
+  
+  @@map("talents")
+  @@index([channelId])
+  @@index([subscriberCount])
+}
+
+model Song {
+  id          String   @id @default(cuid())
+  title       String
+  titleJp     String?  @map("title_jp")
+  titleEn     String?  @map("title_en")
+  type        SongType
+  videoId     String?  @map("video_id")
+  videoUrl    String?  @map("video_url")
+  releaseDate DateTime? @map("release_date")
+  duration    Int?
+  
+  // 統計情報
+  viewCount    BigInt?  @default(0) @map("view_count")
+  likeCount    BigInt?  @default(0) @map("like_count")
+  commentCount BigInt?  @default(0) @map("comment_count")
+  
+  // 楽曲情報
+  lyrics       String?  // 作詞者
+  composer     String?  // 作曲者
+  arranger     String?  // 編曲者
+  mixer        String?  // ミックス
+  illustrator  String?  // イラスト
+  
+  // メタデータ
+  description  String?
+  tags         String[] // タグ配列
+  language     String?  // 言語
+  
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  
+  // リレーション
+  talentId     String @map("talent_id")
+  talent       Talent   @relation(fields: [talentId], references: [id], onDelete: Cascade)
+  
+  @@map("songs")
+  @@index([type])
+  @@index([releaseDate])
+  @@index([viewCount])
+  @@index([likeCount])
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String   // ハッシュ化されたパスワード
+  role      AdminRole @default(ADMIN)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  sessions  AdminSession[]
+  
+  @@map("admins")
+}
+
+model AdminActivityLog {
+  id        String   @id @default(cuid())
+  action    String   // 実行されたアクション
+  target    String   // アクションの対象
+  adminId   String   // 実行した管理者のID
+  details   Json?    // 詳細情報（JSON形式）
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("admin_activity_log")
+  @@index([action])
+  @@index([createdAt(sort: Desc)])
+  @@index([adminId])
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  sessionId String   @unique
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("admin_sessions")
+  @@index([sessionId])
+  @@index([expiresAt])
+}
+
+model UserOshiPreference {
+  id        String   @id @default(cuid())
+  userId    String   // ユーザーID（push_subscriptionsのuser_idと連携）
+  talentId  String
+  talent    Talent   @relation(fields: [talentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, talentId])
+  @@map("user_oshi_preferences")
+  @@index([userId])
+  @@index([talentId])
+  @@index([createdAt(sort: Desc)])
+}
+
+enum SongType {
+  ORIGINAL
+  COVER
+  COLLABORATION
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}

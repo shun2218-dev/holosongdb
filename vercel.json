@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/admin/update-statistics?songType=all",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/admin/update-subscriber-counts",
+      "schedule": "0 14 * * *"
+    }
+  ]
+}
