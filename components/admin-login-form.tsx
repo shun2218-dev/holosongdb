@@ -105,6 +105,11 @@ export function AdminLoginForm() {
             {isLoading ? "ログイン中..." : "ログイン"}
           </Button>
         </form>
+
+        <div className="mt-6 text-center text-sm text-muted-foreground">
+          <p>デモ用アカウント:</p>
+          <p>ユーザー名: admin / パスワード: admin123</p>
+        </div>
       </CardContent>
     </Card>
   )

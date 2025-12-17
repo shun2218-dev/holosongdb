@@ -1,7 +1,5 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { GeistSans } from "geist/font/sans"
-import { GeistMono } from "geist/font/mono"
 import { Suspense } from "react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import "./globals.css"
@@ -89,7 +87,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#27C7FF" />
         <meta name="google-site-verification" content="Q07EXCDVuV7zVPUiniVNCtfa5K92c2TDDfoGJ_fB__0" />
       </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+      <body className="font-sans">
         <DynamicHeader />
         <PWAWrapper>
           <Suspense fallback={null}>{children}</Suspense>
